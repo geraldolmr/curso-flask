@@ -11,7 +11,7 @@ def read(filename):
 
 setup(
     name="delivery",
-    version="0.1.0",
+    version="0.1.0",    # major, minor, patch
     description="Delivery app",
     packages=find_packages(),
     include_package_data=True,

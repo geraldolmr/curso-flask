@@ -1,5 +1,4 @@
 from flask import Flask
-
 from delivery.ext import site
 from delivery.ext import config
 from delivery.ext import toolbar
