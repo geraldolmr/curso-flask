@@ -1,3 +1,5 @@
+# Geraldo alterou em 07/07/2020 17:44
+
 # curso-flask
 
 Curso Flask - https://skip.gg/curso-flask-codeshow
