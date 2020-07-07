@@ -4,6 +4,8 @@ from flask import current_app
 
 bp = Blueprint("site", __name__)
 
+# Geraldo Luiz - testando git
+
 
 @bp.route("/")
 def index():
