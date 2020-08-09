@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Nano backup file
+*~
+
 # C extensions
 *.so
 
@@ -130,3 +133,10 @@ dmypy.json
 
 # db
 delivery/delivery/delivery.db
+
+# Pycharm
+.idea/
+
+# Vscode
+.vscode/
+

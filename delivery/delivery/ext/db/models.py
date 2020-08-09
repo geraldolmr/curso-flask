@@ -1,7 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 from delivery.ext.db import db
-
+from sqlalchemy.orm import validates
+import re
 
 class User(db.Model):
     __tablename__ = "user"
@@ -12,6 +13,14 @@ class User(db.Model):
 
     def __repr__(self):
         return self.email
+        
+    @validates("email")
+    def validate_email(selfself, key, email):
+        if not email:
+            raise AssertionError("No email provided")
+        if not re.match("[^@]+@[^@]+\.[^@]+", email):
+            raise AssertionError("Invalid email address")
+        return email
 
 
 class Category(db.Model):

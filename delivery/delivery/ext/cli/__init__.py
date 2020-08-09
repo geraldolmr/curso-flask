@@ -1,7 +1,10 @@
 import click
-from delivery.ext.db import db
-from delivery.ext.site import models
+from delivery.ext.db import db, models
 
+# precisa desse import do models para que as tabelas sejam criadas
+# mesmo que ele não seja usado explicitamente
+# o models foi movido de site/ para db/
+# from delivery.ext.site import models
 
 def init_app(app):
 
@@ -24,13 +27,14 @@ def init_app(app):
         db.session.add(user)
         db.session.commit()
 
-        click.echo(f"Usuário {email} criado com sucesso!")
-
     @app.cli.command()
-    def listar_pedidos():
-        # TODO: usar tabulate
-        click.echo("lista de pedidos")
-
-    @app.cli.command()
-    def listar_usuarios():
-        click.echo("lista de usuarios")
+    @click.option("--table", "-t")
+    def list_table(table):
+        """List all lines from a table"""
+        try:
+            _table = getattr(models, table)
+            rows = _table.query.all()
+            # {_table.__table__.name}
+            click.echo(f'Rows from table "{table}": {rows}')
+        except AttributeError:
+            click.echo(f'Table "{table}" not found.')
