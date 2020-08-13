@@ -4,16 +4,17 @@ from delivery.ext.db import db
 from sqlalchemy.orm import validates
 import re
 
+
 class User(db.Model):
     __tablename__ = "user"
     id = db.Column("id", db.Integer, primary_key=True)
-    email = db.Column("email", db.Unicode, unique=True)
+    email = db.Column("email", db.Unicode, unique=True, nullable=False)
     passwd = db.Column("passwd", db.Unicode)
-    admin = db.Column("admin", db.Boolean)
+    admin = db.Column("admin", db.Boolean, default=False)
 
     def __repr__(self):
         return self.email
-        
+
     @validates("email")
     def validate_email(selfself, key, email):
         if not email:
@@ -26,17 +27,17 @@ class User(db.Model):
 class Category(db.Model):
     __tablename__ = "category"
     id = db.Column("id", db.Integer, primary_key=True)
-    name = db.Column("name", db.Unicode, unique=True)
+    name = db.Column("name", db.Unicode, unique=True, nullable=False)
+    on_menu = db.Column("on_menu", db.Boolean, default=False)
 
 
 class Store(db.Model):
     __tablename__ = "store"
     id = db.Column("id", db.Integer, primary_key=True)
-    name = db.Column("name", db.Unicode)
+    name = db.Column("name", db.Unicode, nullable=False)
+    active = db.Column("active", db.Boolean, default=True)
     user_id = db.Column("user_id", db.Integer, db.ForeignKey("user.id"))
-    category_id = db.Column(
-        "category_id", db.Integer, db.ForeignKey("category.id")
-    )
+    category_id = db.Column("category_id", db.Integer, db.ForeignKey("category.id"))
 
     user = db.relationship("User", foreign_keys=user_id)
     category = db.relationship("Category", foreign_keys=category_id)
@@ -45,11 +46,11 @@ class Store(db.Model):
 class Items(db.Model):
     __tablename__ = "items"
     id = db.Column("id", db.Integer, primary_key=True)
-    name = db.Column("name", db.Unicode)
+    name = db.Column("name", db.Unicode, nullable=False)
     image = db.Column("image", db.Unicode)
     price = db.Column("price", db.Numeric)
     store_id = db.Column("store_id", db.Integer, db.ForeignKey("store.id"))
-    available = db.Column("available", db.Boolean)
+    available = db.Column("available", db.Boolean, default=True)
 
     store = db.relationship("Store", foreign_keys=store_id)
 
@@ -61,9 +62,7 @@ class Order(db.Model):
     completed = db.Column("completed", db.Boolean)
     user_id = db.Column("user_id", db.Integer, db.ForeignKey("user.id"))
     store_id = db.Column("store_id", db.Integer, db.ForeignKey("store.id"))
-    address_id = db.Column(
-        "address_id", db.Integer, db.ForeignKey("address.id")
-    )
+    address_id = db.Column("address_id", db.Integer, db.ForeignKey("address.id"))
 
     user = db.relationship("User", foreign_keys=user_id)
     store = db.relationship("Store", foreign_keys=store_id)
@@ -96,7 +95,7 @@ class Checkout(db.Model):
 class Address(db.Model):
     __tablename__ = "address"
     id = db.Column("id", db.Integer, primary_key=True)
-    zip = db.Column("zip", db.Unicode)
+    zip = db.Column("zip", db.Unicode, nullable=False)
     country = db.Column("country", db.Unicode)
     address = db.Column("address", db.Unicode)
     user_id = db.Column("user_id", db.Integer, db.ForeignKey("user.id"))

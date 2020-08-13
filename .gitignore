@@ -140,3 +140,5 @@ delivery/delivery/delivery.db
 # Vscode
 .vscode/
 
+# arquivo .secret.toml
+.secrets.toml

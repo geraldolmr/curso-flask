@@ -1,0 +1,54 @@
+# settings.toml
+# Este arquivo de config é lido pelo Dynaconf
+
+[default]
+DEBUG = false
+
+FLASK_ADMIN_SWATCH = "cerulean"
+
+# Essas extensões serão carregadas pelo dynaconf (módulo:factory)
+# Fazer: "app.config.load_extensions("EXTENSIONS")" para carregar
+EXTENSIONS = [
+    "delivery.ext.db:init_app",
+    "delivery.ext.babel:init_app",
+    "delivery.ext.admin:init_app",
+    "delivery.ext.migrate:init_app",
+    "delivery.ext.cli:init_app",
+    "delivery.ext.site:init_app",
+    "delivery.ext.hooks:init_app",
+]
+
+[development]
+DEBUG = true
+ADMIN_NAME = "CodeFoods"
+ADMIN_TEMPLATE_MODE = "bootstrap3"
+SQLALCHEMY_DATABASE_URI = "sqlite:///delivery.db"
+# DEBUG_TB_ENABLED = true  # é automático quando DEBUG = true
+DEBUG_TB_PROFILER_ENABLED = true
+DEBUG_TB_INTERCEPT_REDIRECTS = false
+DEBUG_TB_TEMPLATE_EDITOR_ENABLED = true
+SQLALCHEMY_TRACK_MODIFICATIONS = false
+
+# "dynaconf_merge" é uma chave especial que indica para o dynaconf qe ele deve fazer
+# um merge com as chaves definidas anteriormente
+# EXTENSIONS = [
+#     "dynaconf_merge",
+#     "delivery.ext.toolbar:init_app",
+# ]
+
+# Só que deu problema por causa da posição em que o toolbar tem de entrar
+# O Bruno Rocha pensa em resolver isso na próxima versão (o dynaconf é dele)
+EXTENSIONS = [
+    "delivery.ext.db:init_app",
+    "delivery.ext.babel:init_app",
+    "delivery.ext.admin:init_app",
+    "delivery.ext.migrate:init_app",
+    "delivery.ext.cli:init_app",
+    "delivery.ext.toolbar:init_app",
+    "delivery.ext.site:init_app",
+    "delivery.ext.hooks:init_app",
+]
+
+[production]
+SQLALCHEMY_DATABASE_URI = "mysql:// ..."
+SQLALCHEMY_TRACK_MODIFICATIONS = false
